@@ -15,6 +15,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: Lowercase repo owner
+        run: echo "REPO_OWNER=$(echo ${{ github.repository_owner }} | awk '{print tolower($0)}')" >> $GITHUB_ENV
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -27,4 +30,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
+          tags: ghcr.io/${{ env.REPO_OWNER }}/${{ env.IMAGE_NAME }}:latest
